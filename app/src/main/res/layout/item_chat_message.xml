@@ -10,7 +10,7 @@
         android:id="@+id/messageText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/primaryText"
+        android:textColor="@color/white"
         android:textSize="16sp"
         android:padding="8dp"
         android:background="@drawable/chat_bg"/>
