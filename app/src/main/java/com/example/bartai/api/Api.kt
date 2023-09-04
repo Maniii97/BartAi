@@ -90,7 +90,7 @@ class Api {
             }
         }
     }
-    fun decodeHtmlEntities(input: String): String {
+    private fun decodeHtmlEntities(input: String): String {
         val htmlEntities = mapOf(
             "&amp;" to "&",
             "&lt;" to "<",
@@ -113,10 +113,10 @@ class Api {
             "inputs",
             JSONObject(mapOf("source_sentence" to inputQuery, "sentences" to dataList))
         )
-        val API_URL = "https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2"
+        val apiUrl = "https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2"
 
         val requestBody = payload.toString().toRequestBody("application/json".toMediaTypeOrNull())
-        val request = buildRequest(API_URL, summaryApiKey, requestBody)
+        val request = buildRequest(apiUrl, summaryApiKey, requestBody)
 
         val output = apiRequest(request)
         println(output)
@@ -127,10 +127,10 @@ class Api {
         val topKEmbeddings = getTopKValues(embeddings, 3)
 
         for ((index, value) in topKEmbeddings) {
-            println("Index: $index, Value: $value")// Index: 14, Value: 0.5087682604789734
-            val text = dataList[index] // Look at this. If you can see this, it is very light purple. Looks very nice.
-            println(text) // actual caption line
-            println(dictionary[text])// gives time, 56
+            println("Index: $index, Value: $value")
+            val text = dataList[index]
+            println(text)
+            println(dictionary[text])
         }
         val resultList = mutableListOf<String>()
 
@@ -147,35 +147,18 @@ class Api {
         }
         return resultList
     }
-    private fun getTopKValues(values: List<Double>, top_k: Int): List<Pair<Int, Double>> {
+    private fun getTopKValues(values: List<Double>, topK: Int): List<Pair<Int, Double>> {
 
-        if (top_k >= values.size) {
+        if (topK >= values.size) {
             return values.mapIndexed { index, value -> Pair(index, value) }
         }
 
         val indexedValues = values.mapIndexed { index, value -> Pair(index, value) }
         val sortedValues = indexedValues.sortedByDescending { it.second }
 
-        return sortedValues.subList(0, top_k)
+        return sortedValues.subList(0, topK)
     }
 
-    private fun buildRequest(
-        apiUrl: String,
-        apiKey: String,
-        requestBody: RequestBody?,
-        videoId: String? = null
-    ): Request {
-        val requestBuilder = Request.Builder()
-            .url("$apiUrl${videoId?.let { "?videoId=$it&locale=en" } ?: ""}")
-            .addHeader("X-RapidAPI-Key", apiKey)
-            .addHeader("X-RapidAPI-Host", apiUrl.substringAfter("https://").substringBefore("/"))
-
-        if (requestBody != null) {
-            requestBuilder.post(requestBody)
-        }
-
-        return requestBuilder.build()
-    }
 
     private suspend fun apiRequest(request: Request): JSONArray {
         return withContext(Dispatchers.IO) {
@@ -189,6 +172,22 @@ class Api {
                 JSONArray() // Return an empty JSON array in case of parsing error
             }
         }
+    }
+    private fun buildRequest(
+        apiUrl: String,
+        apiKey: String,
+        reqBody: RequestBody?,
+        videoId: String? = null
+    ): Request {
+        val reqBuilder = Request.Builder()
+            .url("$apiUrl${videoId?.let { "?videoId=$it&locale=en" } ?: ""}")
+            .addHeader("X-RapidAPI-Key", apiKey)
+            .addHeader("X-RapidAPI-Host", apiUrl.substringAfter("https://").substringBefore("/"))
+
+        if (reqBody != null) {
+            reqBuilder.post(reqBody)
+        }
+        return reqBuilder.build()
     }
 
 }
