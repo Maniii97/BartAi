@@ -31,8 +31,6 @@ class ChatActivity : AppCompatActivity() {
         Log.e("videoId", videoId)
         getSummary(videoId)
     }
-
-
     private fun setupRV() {
         chatAdapter = ChatAdapter(chatMessages)
         binding.chatRecyclerView.apply {
@@ -42,11 +40,11 @@ class ChatActivity : AppCompatActivity() {
     }
 
     fun onSendButtonClick(view: View) {
-        val userInput = binding.messageInput.text.toString()
+        val userInput = binding.etMessage.text.toString()
         if (userInput.isNotEmpty()) {
             userMessage(userInput)
             getAnswer(userInput) // Call your function to get AI response
-            binding.messageInput.text.clear()
+            binding.etMessage.text.clear()
         }
     }
 
@@ -55,7 +53,6 @@ class ChatActivity : AppCompatActivity() {
         chatAdapter.notifyItemInserted(chatMessages.size - 1)
         binding.chatRecyclerView.scrollToPosition(chatMessages.size - 1)
     }
-
 
     private fun getAnswer(question: String) {
         CoroutineScope(Dispatchers.Main).launch {
@@ -96,7 +93,5 @@ class ChatActivity : AppCompatActivity() {
         chatAdapter.notifyItemInserted(chatMessages.size - 1)
         binding.chatRecyclerView.scrollToPosition(chatMessages.size - 1)
     }
-
-
 
 }

@@ -16,15 +16,17 @@
         android:textSize="20sp"
         android:layout_marginTop="60dp"
         android:layout_gravity="center"
+        android:fontFamily="@font/sfpro_medium"
         android:textColor="@color/white2"
         />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="I run on GPT2 model , so pardon me if i make any mistakes ,but i promise i wont messup the timestamps"
+        android:text="I run on GPT2 model , pardon me if i make any mistakes ,but i promise i wont messup the timestamps(hopefully)."
         android:textSize="18sp"
         android:layout_marginTop="50dp"
         android:layout_gravity="center"
+        android:fontFamily="@font/sfpro_medium"
         android:textColor="@color/white2"
         />
 
@@ -51,8 +53,8 @@
         android:layout_height="wrap_content"
         android:text="Next"
         android:textColor="@color/white"
-        android:backgroundTint="@color/primaryAccent"
-        android:padding="12dp"
+        android:backgroundTint="@color/tint"
+        android:padding="10dp"
         android:textSize="16sp"
         android:onClick="onNextButtonClick"/>
 </LinearLayout>
