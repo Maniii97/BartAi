@@ -4,10 +4,8 @@
     <color name="white">#FFFFFFFF</color>
 
 
-    <color name="primaryBackground">#181818</color>
-    <color name="primaryText">#FFFFFF</color>
-    <color name="secondaryText">#B0B0B0</color>
-    <color name="primaryAccent">#e50914</color>
+    <color name="white2">#B0B0B0</color>
+    <color name="primaryAccent">#67586b</color>
     <color name="userBubbleColor">#2ECC71</color>
     <color name="aiBubbleColor">#3498DB</color>
     <color name="blue">#0000FF</color>

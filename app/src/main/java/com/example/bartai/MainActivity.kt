@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        ytLink = findViewById(R.id.youtubeLinkInput)
+        ytLink = findViewById(R.id.EtYtLink)
     }
 
     fun onNextButtonClick(view: View) {
