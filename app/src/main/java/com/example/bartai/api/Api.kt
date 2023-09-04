@@ -16,12 +16,12 @@ import java.util.regex.Pattern
 
 class Api {
 
-    private val secrets=Secrets()
+    private val keys=Keys()
     private val summaryApiUrl = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn"
-    private val apiAccessToken = secrets.accessToken2
+    private val summaryApiKey = keys.summaryApiKey
 
     private val youtubeApiUrl = "https://youtube-video-subtitles-list.p.rapidapi.com/"
-    private val youtubeApiKey=secrets.youtubeApiKey
+    private val youtubeApiKey=keys.youtubeApiKey
 
     private val client = OkHttpClient()
 
@@ -33,21 +33,21 @@ class Api {
         payload.put("inputs", input)
 
         val requestBody = RequestBody.create("application/json".toMediaTypeOrNull(), payload.toString())
-        val request = buildRequest(summaryApiUrl, apiAccessToken, requestBody)
+        val request = buildRequest(summaryApiUrl, summaryApiKey, requestBody)
 
-        return performApiRequest(request)
+        return apiRequest(request)
     }
 
-    suspend fun fetchYouTubeCaptions(videoId: String): String {
+    suspend fun getYTCaptions(videoId: String): String {
         val request = buildRequest(youtubeApiUrl, youtubeApiKey, null, videoId)
 
-        val response: JSONArray=performApiRequest(request)
+        val response: JSONArray=apiRequest(request)
         var captions=""
         if (response.length() > 0) {
             val firstObject = response.getJSONObject(0)
             val baseUrl = firstObject.getString("baseUrl")
             Log.v("Base url", baseUrl)
-            captions=fetchAndProcessCaptionsFromBaseUrl(baseUrl)
+            captions=processCaptions(baseUrl)
         }
         else{
             captions="Invalid Video link or No english subtitle found!"
@@ -55,7 +55,7 @@ class Api {
         return captions
     }
 
-    private suspend fun fetchAndProcessCaptionsFromBaseUrl(baseUrl: String): String {
+    private suspend fun processCaptions(baseUrl: String): String {
         val request = Request.Builder()
             .url(baseUrl)
             .get()
@@ -116,9 +116,9 @@ class Api {
         val API_URL = "https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2"
 
         val requestBody = payload.toString().toRequestBody("application/json".toMediaTypeOrNull())
-        val request = buildRequest(API_URL, apiAccessToken, requestBody)
+        val request = buildRequest(API_URL, summaryApiKey, requestBody)
 
-        val output = performApiRequest(request)
+        val output = apiRequest(request)
         println(output)
         val embeddings = mutableListOf<Double>()
         for (i in 0 until output.length()) {
@@ -177,7 +177,7 @@ class Api {
         return requestBuilder.build()
     }
 
-    private suspend fun performApiRequest(request: Request): JSONArray {
+    private suspend fun apiRequest(request: Request): JSONArray {
         return withContext(Dispatchers.IO) {
             val response = client.newCall(request).execute()
             val responseBody = response.body?.string()

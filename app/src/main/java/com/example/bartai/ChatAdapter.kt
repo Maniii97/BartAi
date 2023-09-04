@@ -8,11 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.bartai.ChatMessageModel
+import com.example.bartai.MessageModel
 import com.example.bartai.R
 import com.example.bartai.databinding.ItemChatMessageBinding
 
-class ChatAdapter(private val chatMessages: List<ChatMessageModel>) :
+class ChatAdapter(private val chatMessages: List<MessageModel>) :
     RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -34,14 +34,14 @@ class ChatAdapter(private val chatMessages: List<ChatMessageModel>) :
     inner class ViewHolder(private val binding: ItemChatMessageBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(chatMessage: ChatMessageModel) {
+        fun bind(chatMessage: MessageModel) {
             binding.messageText.text = chatMessage.message
 
             if (chatMessage.isUserMessage) {
-                binding.messageText.setBackgroundResource(R.drawable.bg_chat_bubble_user)
+                binding.messageText.setBackgroundResource(R.drawable.bg_user)
                 binding.root.layoutDirection = View.LAYOUT_DIRECTION_RTL
             } else {
-                binding.messageText.setBackgroundResource(R.drawable.bg_chat_bubble_ai)
+                binding.messageText.setBackgroundResource(R.drawable.bg_ai)
                 binding.root.layoutDirection = View.LAYOUT_DIRECTION_LTR
             }
             val screenWidth = Resources.getSystem().displayMetrics.widthPixels
@@ -51,20 +51,19 @@ class ChatAdapter(private val chatMessages: List<ChatMessageModel>) :
             if (!chatMessage.sectionLink.isNullOrEmpty()) {
                 binding.goToSectionButton.visibility = View.VISIBLE
                 binding.goToSectionButton.setOnClickListener {
-                    openYouTubeApp(itemView.context, chatMessage.sectionLink)
+                    openYT(itemView.context, chatMessage.sectionLink)
                 }
             } else {
                 binding.goToSectionButton.visibility = View.GONE
             }
         }
-        private fun openYouTubeApp(context: Context, videoLink: String) {
+        private fun openYT(context: Context, videoLink: String) {
             try {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(videoLink))
                 intent.setPackage("com.google.android.youtube")
                 context.startActivity(intent)
             } catch (e: ActivityNotFoundException) {
                 Log.e("Youtube app","Not found!")
-                //if app is not installed, open in browser
             }
         }
     }

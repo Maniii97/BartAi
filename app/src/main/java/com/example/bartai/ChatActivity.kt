@@ -1,7 +1,6 @@
 package com.example.bartai
 
 import ChatAdapter
-import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -16,17 +15,17 @@ import org.json.JSONArray
 
 class ChatActivity : AppCompatActivity() {
 
-    private lateinit var binding: Activity
-    private val chatMessages = mutableListOf<ChatMessageModel>()
+    private lateinit var binding: ActivityChatBinding
+    private val chatMessages = mutableListOf<MessageModel>()
     private lateinit var chatAdapter: ChatAdapter
-    private val ApiHelper = Api()
-    lateinit var videoId:String
+    private val api = Api()
+    private lateinit var videoId:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupRecyclerView()
+        setupRV()
         videoId = intent.getStringExtra("videoId").toString()
         println(videoId)
         Log.e("videoId", videoId)
@@ -34,7 +33,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
 
-    private fun setupRecyclerView() {
+    private fun setupRV() {
         chatAdapter = ChatAdapter(chatMessages)
         binding.chatRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@ChatActivity)
@@ -45,44 +44,40 @@ class ChatActivity : AppCompatActivity() {
     fun onSendButtonClick(view: View) {
         val userInput = binding.messageInput.text.toString()
         if (userInput.isNotEmpty()) {
-            addUserMessage(userInput)
+            userMessage(userInput)
             getAnswer(userInput) // Call your function to get AI response
             binding.messageInput.text.clear()
         }
     }
 
-    private fun addUserMessage(message: String) {
-        chatMessages.add(ChatMessageModel(message, true))
+    private fun userMessage(message: String) {
+        chatMessages.add(MessageModel(message, true))
         chatAdapter.notifyItemInserted(chatMessages.size - 1)
         binding.chatRecyclerView.scrollToPosition(chatMessages.size - 1)
     }
 
-    private fun addAiResponse(message: String,sectionTiming:String="-1s") {
-        if(sectionTiming=="-1s")
-            chatMessages.add(ChatMessageModel(message, false,))
-        else{
-            val sectionUrl="https://www.youtube.com/watch?v=$videoId&t=$sectionTiming"
-            println(sectionUrl)
-            chatMessages.add(ChatMessageModel(message, false,sectionUrl))
+
+    private fun getAnswer(question: String) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val response = api.getVectorEmbeddings(question)
+            aiResponse(response[0],response[1])
         }
-        chatAdapter.notifyItemInserted(chatMessages.size - 1)
-        binding.chatRecyclerView.scrollToPosition(chatMessages.size - 1)
     }
 
     private fun getSummary(videoId: String?) {
         CoroutineScope(Dispatchers.Main).launch {
-            val captions: String = ApiHelper.fetchYouTubeCaptions(videoId!!)
-            val response: JSONArray = ApiHelper.getSummary(captions)
+            val captions: String = api.getYTCaptions(videoId!!)
+            val response: JSONArray = api.getSummary(captions)
             if (captions.isNotEmpty()) {
                 if (response.length() > 0) {
                     val resultArray = response.getJSONObject(0)
                     var summary = "The summary of the video is: \n"
                     summary += resultArray.getString("summary_text")
                     Log.v("res", resultArray.toString())
-                    addAiResponse(summary)
-                    addAiResponse("Try asking some questions related to this video.")
+                    aiResponse(summary)
+                    aiResponse("Try asking some questions related to this video.")
                 } else {
-                    addAiResponse("Hey there, \nTry asking some questions related to this video.")
+                    aiResponse("Hey there, \nTry asking some questions related to this video.")
                 }
             } else {
                 Log.e("captions","No captions")
@@ -90,11 +85,18 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-    private fun getAnswer(question: String) {
-        CoroutineScope(Dispatchers.Main).launch {
-            val response = ApiHelper.getVectorEmbeddings(question)
-            addAiResponse(response[0],response[1])
+    private fun aiResponse(message: String,sectionTiming:String="-1s") {
+        if(sectionTiming=="-1s")
+            chatMessages.add(MessageModel(message, false,))
+        else{
+            val sectionUrl="https://www.youtube.com/watch?v=$videoId&t=$sectionTiming"
+            println(sectionUrl)
+            chatMessages.add(MessageModel(message, false,sectionUrl))
         }
+        chatAdapter.notifyItemInserted(chatMessages.size - 1)
+        binding.chatRecyclerView.scrollToPosition(chatMessages.size - 1)
     }
+
+
 
 }

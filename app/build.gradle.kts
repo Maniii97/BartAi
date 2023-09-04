@@ -33,13 +33,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures{
+        viewBinding = true
+    }
 
-    viewBinding {
-        enable
-    }
-    dataBinding{
-        enable
-    }
 }
 
 
@@ -53,6 +50,5 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation ("com.squareup.okhttp3:okhttp:4.10.0")
-    implementation("androidx.recyclerview:recyclerview:1.3.1")
 
 }

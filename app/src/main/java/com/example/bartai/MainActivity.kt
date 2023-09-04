@@ -9,15 +9,16 @@ import androidx.appcompat.app.AppCompatActivity
 import java.util.regex.Pattern
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var youtubeLink: EditText
+    private lateinit var ytLink: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        youtubeLink = findViewById(R.id.youtubeLinkInput)
+        ytLink = findViewById(R.id.youtubeLinkInput)
     }
+
     fun onNextButtonClick(view: View) {
-        val ytLink = youtubeLink.text.toString()
-        val videoId=getYouTubeVideoId(ytLink)
+        val ytLink = ytLink.text.toString()
+        val videoId=getVideoId(ytLink)
         if (videoId != null) {
             val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra("videoId", videoId)
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getYouTubeVideoId(link: String): String? {
+    private fun getVideoId(link: String): String? {
         val pattern = "(?<=youtu.be/|watch\\?v=|/videos/|embed\\/|youtu.be\\/|v\\/|\\/v\\/|watch\\?v=|embed\\/|youtu.be\\/|v\\/|\\/v\\/|watch\\?v=|embed\\/|youtu.be\\/|v\\/|\\/v\\/|\\u200C\\u200B\\u200D\\uFEFF|\\u200C\\u200B\\u200D\\uFEFF)[^#\\&\\?\\n]*"
         val compiledPattern = Pattern.compile(pattern)
         val matcher = compiledPattern.matcher(link)

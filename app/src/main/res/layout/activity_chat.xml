@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@color/primaryBackground"
+    android:background="@color/black"
     tools:context=".ChatActivity">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -30,20 +30,21 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Enter message"
+            android:hint="  Message"
             android:textColorHint="@color/primaryText"
             android:inputType="text"
-            android:backgroundTint="@color/primaryAccent"
+            android:background="@drawable/bg"
             android:textColor="@color/primaryText"
             android:textSize="16sp"/>
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginStart="8dp"
-            android:background="?android:attr/selectableItemBackground"
+            android:layout_gravity="center"
+            android:background="@drawable/circularbg"
             android:contentDescription="send button"
             android:onClick="onSendButtonClick"
-            android:src="@drawable/ic_send" />
+            android:src="@drawable/send" />
     </LinearLayout>
 </LinearLayout>
