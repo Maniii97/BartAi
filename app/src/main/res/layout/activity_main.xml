@@ -17,8 +17,7 @@
         android:layout_marginTop="80dp"
         android:layout_gravity="center"
         android:fontFamily="@font/sfpro_medium"
-        android:textColor="@color/white2"
-        />
+        android:textColor="@color/white" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,35 +26,37 @@
         android:layout_marginTop="50dp"
         android:layout_gravity="center"
         android:fontFamily="@font/sfpro_medium"
-        android:textColor="@color/white2"
-        />
+        android:textColor="@color/white" />
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:gravity="bottom">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="bottom">
 
-    <EditText
-        android:id="@+id/EtYtLink"
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
-        android:hint="Enter Youtube URL"
-        android:inputType="text"
-        android:background="@drawable/bg"
-        android:padding="12dp"
-        android:textColor="@color/white2"
-        android:textColorHint="@color/white2"
-        android:textSize="16sp"/>
+        <EditText
+            android:id="@+id/EtYtLink"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter Youtube URL"
+            android:inputType="text"
+            android:background="@drawable/bg"
+            android:padding="12dp"
+            android:textColor="@color/white2"
+            android:textColorHint="@color/white2"
+            android:textSize="16sp"/>
 
-    <Button
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:text="Next"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/tint"
-        android:padding="10dp"
-        android:textSize="16sp"
-        android:onClick="onNextButtonClick"/>
-</LinearLayout>
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="Next"
+            android:src="@drawable/send"
+            android:layout_marginStart="4dp"
+            android:paddingBottom="8dp"
+            android:background="@drawable/circularbg"
+            android:padding="10dp"
+            android:textSize="16sp"
+            android:onClick="onNextButtonClick"/>
+    </LinearLayout>
+
 </LinearLayout>

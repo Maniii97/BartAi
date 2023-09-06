@@ -48,10 +48,10 @@ class ChatAdapter(private val chatMessages: List<MessageModel>) :
             val maxWidth = (screenWidth * 0.7).toInt()
             binding.messageText.maxWidth = maxWidth
 
-            if (!chatMessage.sectionLink.isNullOrEmpty()) {
+            if (!chatMessage.timeStamp.isNullOrEmpty()) {
                 binding.btnToYt.visibility = View.VISIBLE
                 binding.btnToYt.setOnClickListener {
-                    openYT(itemView.context, chatMessage.sectionLink)
+                    openYT(itemView.context, chatMessage.timeStamp)
                 }
             } else {
                 binding.btnToYt.visibility = View.GONE
@@ -63,7 +63,7 @@ class ChatAdapter(private val chatMessages: List<MessageModel>) :
                 intent.setPackage("com.google.android.youtube")
                 context.startActivity(intent)
             } catch (e: ActivityNotFoundException) {
-                Log.e("Youtube app","Not found!")
+                Log.e("Youtube application","Not found")
             }
         }
     }

@@ -43,7 +43,7 @@ class ChatActivity : AppCompatActivity() {
         val userInput = binding.etMessage.text.toString()
         if (userInput.isNotEmpty()) {
             userMessage(userInput)
-            getAnswer(userInput) // Call your function to get AI response
+            getAnswer(userInput)
             binding.etMessage.text.clear()
         }
     }

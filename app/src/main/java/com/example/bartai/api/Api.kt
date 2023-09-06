@@ -40,7 +40,6 @@ class Api {
 
     suspend fun getYTCaptions(videoId: String): String {
         val request = buildRequest(youtubeApiUrl, youtubeApiKey, null, videoId)
-
         val response: JSONArray=apiRequest(request)
         var captions=""
         if (response.length() > 0) {
@@ -103,7 +102,6 @@ class Api {
         for ((entity, value) in htmlEntities) {
             decoded = decoded.replace(entity, value)
         }
-
         return decoded
     }
 
@@ -169,7 +167,7 @@ class Api {
                 JSONArray(responseBody ?: "[]")
             } catch (e: JSONException) {
                 Log.e("ApiHelper", "Error parsing JSON response: ${e.message}")
-                JSONArray() // Return an empty JSON array in case of parsing error
+                JSONArray()
             }
         }
     }
