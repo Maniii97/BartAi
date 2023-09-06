@@ -49,12 +49,12 @@ class ChatAdapter(private val chatMessages: List<MessageModel>) :
             binding.messageText.maxWidth = maxWidth
 
             if (!chatMessage.sectionLink.isNullOrEmpty()) {
-                binding.goToSectionButton.visibility = View.VISIBLE
-                binding.goToSectionButton.setOnClickListener {
+                binding.btnToYt.visibility = View.VISIBLE
+                binding.btnToYt.setOnClickListener {
                     openYT(itemView.context, chatMessage.sectionLink)
                 }
             } else {
-                binding.goToSectionButton.visibility = View.GONE
+                binding.btnToYt.visibility = View.GONE
             }
         }
         private fun openYT(context: Context, videoLink: String) {

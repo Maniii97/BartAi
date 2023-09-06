@@ -13,16 +13,18 @@
         android:textColor="@color/white"
         android:textSize="16sp"
         android:padding="8dp"
+        android:fontFamily="@font/sfpro_medium"
         android:background="@drawable/chat_bg"/>
 
     <Button
-        android:id="@+id/goToSectionButton"
+        android:id="@+id/btnToYt"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:text="Go to Section"
+        android:text="Jump to this part"
         android:textColor="@color/white"
-        android:textSize="10sp"
-        android:backgroundTint="#E53935"
+        android:textSize="14sp"
+        android:fontFamily="@font/sfpro_medium"
+        android:backgroundTint="#34B7F1"
         android:visibility="gone"
         android:layout_gravity="start"
         android:layout_marginTop="4dp"/>

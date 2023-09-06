@@ -32,6 +32,7 @@
             android:layout_weight="1"
             android:hint="Message"
             android:padding="12dp"
+            android:fontFamily="@font/sfpro_medium"
             android:textColorHint="@color/white"
             android:inputType="text"
             android:background="@drawable/bg"

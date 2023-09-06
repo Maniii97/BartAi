@@ -12,9 +12,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hola Amigo \nI am a AI model which summarises a youtube video and answer to any questions regarding the video with time stamps"
+        android:text="Hola Amigo \nI am an AI chat model which summarises a youtube video and answer to any questions regarding the video with timestamps."
         android:textSize="20sp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="80dp"
         android:layout_gravity="center"
         android:fontFamily="@font/sfpro_medium"
         android:textColor="@color/white2"
