@@ -4,6 +4,7 @@ import ChatAdapter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bartai.api.Api
@@ -19,7 +20,9 @@ class ChatActivity : AppCompatActivity() {
     private val chatMessages = mutableListOf<MessageModel>()
     private lateinit var chatAdapter: ChatAdapter
     private val api = Api()
+    private lateinit var progressBar : ProgressBar
     private lateinit var videoId:String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
@@ -27,8 +30,7 @@ class ChatActivity : AppCompatActivity() {
 
         setupRV()
         videoId = intent.getStringExtra("videoId").toString()
-        println(videoId)
-        Log.e("videoId", videoId)
+        progressBar = findViewById(R.id.progressBar)
         getSummary(videoId)
     }
     private fun setupRV() {
@@ -55,9 +57,11 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun getAnswer(question: String) {
+        progressBar.visibility = View.VISIBLE
         CoroutineScope(Dispatchers.Main).launch {
             val response = api.getVectorEmbeddings(question)
             aiResponse(response[0],response[1])
+            progressBar.visibility = View.GONE
         }
     }
 
@@ -70,19 +74,20 @@ class ChatActivity : AppCompatActivity() {
                     val resultArray = response.getJSONObject(0)
                     var summary = "The summary of the video is: \n"
                     summary += resultArray.getString("summary_text")
-                    Log.v("res", resultArray.toString())
+                    Log.v("result text", resultArray.toString())
                     aiResponse(summary)
-                    aiResponse("Try asking some questions related to this video.")
+                    aiResponse("Feel free to ask Questions related to this video")
                 } else {
-                    aiResponse("Hey there, \nTry asking some questions related to this video.")
+                    aiResponse("Hey there, \nI am Bart AI, Feel free to ask Questions related to this video ")
                 }
             } else {
-                Log.e("captions","No captions")
+                Log.e("captions","No captions in the video link")
             }
         }
     }
 
     private fun aiResponse(message: String,sectionTiming:String="-1s") {
+        progressBar.visibility = View.VISIBLE
         if(sectionTiming=="-1s")
             chatMessages.add(MessageModel(message, false,))
         else{
@@ -92,6 +97,7 @@ class ChatActivity : AppCompatActivity() {
         }
         chatAdapter.notifyItemInserted(chatMessages.size - 1)
         binding.chatRecyclerView.scrollToPosition(chatMessages.size - 1)
+        progressBar.visibility = View.GONE
     }
 
 }

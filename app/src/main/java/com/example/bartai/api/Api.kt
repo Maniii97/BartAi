@@ -21,7 +21,7 @@ class Api {
     private val summaryApiKey = keys.summaryApiKey
 
     private val youtubeApiUrl = "https://youtube-video-subtitles-list.p.rapidapi.com/"
-    private val youtubeApiKey=keys.youtubeApiKey
+    private val youtubeApiKey = keys.youtubeApiKey
 
     private val client = OkHttpClient()
 

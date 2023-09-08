@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("videoId", videoId)
             startActivity(intent)}
         else{
-            Toast.makeText(this, "Invalid YouTube video link. Try again!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Enter a Valid Youtube Link", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -34,9 +34,7 @@ class MainActivity : AppCompatActivity() {
         val matcher = compiledPattern.matcher(link)
         return if (matcher.find()) {
             matcher.group()
-        } else {
+        } else
             null
-        }
-
     }
 }

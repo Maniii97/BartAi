@@ -32,27 +32,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:gravity="bottom" >
+        android:padding="8dp">
 
         <EditText
             android:id="@+id/EtYtLink"
-            android:layout_width="320dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:hint="Enter Youtube URL"
             android:inputType="text"
+            android:layout_gravity="bottom"
             android:background="@drawable/bg"
             android:padding="12dp"
-            android:textColor="@color/white2"
+            android:textColor="@color/white"
             android:textColorHint="@color/white2"
             android:textSize="16sp" />
 
         <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:text="Next"
-            android:src="@drawable/send"
-            android:layout_marginStart="4dp"
-            android:paddingBottom="8dp"
+            android:src="@drawable/baseline_arrow_upward_24"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="bottom"
             android:background="@drawable/circularbg"
             android:padding="10dp"
             android:textSize="16sp"
